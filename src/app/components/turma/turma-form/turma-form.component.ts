@@ -2,7 +2,8 @@ import { Component , inject} from '@angular/core';
 import { Turma } from '../../../models/turma';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TurmaService } from '../../../service/turma.service';
 
 @Component({
   selector: 'app-turma-form',
@@ -12,26 +13,64 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './turma-form.component.scss'
 })
 export class TurmaFormComponent {
- turma: Turma = new Turma();
+  turma: Turma = new Turma();
   rotaAtivida = inject(ActivatedRoute);
+  turmaService = inject(TurmaService);
+  roteador = inject(Router);
+
   constructor(){
     let id = this.rotaAtivida.snapshot.params['id'];
     if(id){
-      let turma1 = new Turma();
-      turma1.id = 1;
-      turma1.nomeTurma = 'ADS';
-      turma1.semestre = "2";
-      turma1.ano = 2000;
-      turma1.turno = 'noturno'
-      this.turma = turma1;
+      this.findById (id);
     }
   }
+
+  findById(id: number){
+    this.turmaService.findById(id).subscribe({
+      next: (turmaRetornando) => {
+        this.turma = turmaRetornando;
+      },
+      error:  (erro) => {
+        alert('Deu Ruim!!!');
+      }
+    })
+  }
+
+
+
+
   save(){
-    if(this.turma && this.turma.id > 0){
-      alert('estou fazendo atualizacao...');
+    if(this.turma.id > 0){
+      // UPDATE
+      this.turmaService.update(this.turma, this.turma.id).subscribe({
+        next: (mensagem) => {
+          alert(mensagem);
+         this.roteador.navigate(['admin/turma']);
+         // this.meuEvento.emit("OK");
+        },
+        error: (erro) => {
+          alert(erro.error)
+        }
+      });
+
+
     }else{
-      alert('Salvando');
+      // SAVE
+      this.turmaService.save(this.turma).subscribe({
+        next: (mensagem) => {
+          alert(mensagem);
+          this.roteador.navigate(['admin/turma']);
+         // this.meuEvento.emit("OK");
+        },
+        error: (erro) => {
+          alert(erro.error)
+        }
+      });
+
+
     }
-  }
+  
+
+}
 
 }

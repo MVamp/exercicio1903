@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { Aluno } from '../../../models/aluno';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlunoService } from '../../../service/aluno.service';
 
 @Component({
   selector: 'app-aluno-form',
@@ -14,22 +15,60 @@ import { ActivatedRoute } from '@angular/router';
 export class AlunoFormComponent {
   aluno: Aluno = new Aluno();
   rotaAtivida = inject(ActivatedRoute);
+  alunoService = inject(AlunoService);
+  roteador = inject(Router);
+
+
   constructor(){
     let id = this.rotaAtivida.snapshot.params['id'];
     if(id){
-      let aluno1 = new Aluno();
-      aluno1.id = 1;
-      aluno1.nomeAluno = 'joaquim';
-      aluno1.cpf = '123468722-99';
-      aluno1.telefone = '99999-9999';
-      this.aluno = aluno1;
+      this.findById (id);
     }
   }
+
+  findById(id: number){
+    this.alunoService.findById(id).subscribe({
+      next: (alunoRetornando) => {
+        this.aluno = alunoRetornando;
+      },
+      error:  (erro) => {
+        alert('Deu Ruim!!!');
+      }
+    })
+  }
+
+
   save(){
-    if(this.aluno && this.aluno.id > 0){
-      alert('atualizando');
+    if(this.aluno.id > 0){
+      // UPDATE
+      this.alunoService.update(this.aluno, this.aluno.id).subscribe({
+        next: (mensagem) => {
+          alert(mensagem);
+         this.roteador.navigate(['admin/aluno']);
+         // this.meuEvento.emit("OK");
+        },
+        error: (erro) => {
+          alert(erro.error)
+        }
+      });
+
+
     }else{
-      alert('Salvando');
+      // SAVE
+      this.alunoService.save(this.aluno).subscribe({
+        next: (mensagem) => {
+          alert(mensagem);
+          this.roteador.navigate(['admin/professor']);
+         // this.meuEvento.emit("OK");
+        },
+        error: (erro) => {
+          alert(erro.error)
+        }
+      });
+
+
     }
-  }
+  
+
+}
 }
