@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-body">
             <h1>Turmas</h1><br>
-            <a href="admin/turma/new" class="btn btn-primary">Novo Cadastro</a>
+            <a (click)="new()" class="btn btn-primary">Novo Cadastro</a>
                             
                 <table class="table">
                     
@@ -28,7 +28,7 @@
                             <td>{{turma.ano}}</td>
                             <td>{{turma.turno}}</td>
                             <td class="alinhar">
-                            <a href="admin/turma/edit/{{turma.id}}" class="btn btn-primary">Editar</a>
+                            <a (click)="edit(turma)" class="btn btn-primary">Editar</a>
                                 <button (click)="delete(turma)" class="btn btn-danger">Deletar</button>
                                 </td>
                         </tr>
@@ -43,3 +43,25 @@
         </div>
     </div>
 </div>
+
+
+
+
+<ng-template #modalTurmaForm>
+
+    <div class="modal-header">
+        @if(turmaEdit.id > 0){
+            <h5 class="modal-title" id="exampleModalLabel">Editar turma</h5>
+        }@else {
+            <h5 class="modal-title" id="exampleModalLabel">Nova turma</h5>  
+        }
+        <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+        
+    </div>
+    <div class="modal-body">
+        
+        <app-turma-form [turma]="turmaEdit" (meuEvento)="retornoTurmaForm($event)"></app-turma-form>
+
+    </div>
+
+</ng-template>
