@@ -27,6 +27,35 @@
               
               <br />
               <button (click)="save()"  [disabled]="!formulario.valid" class="btn btn-success">Salvar</button>
+              
+              <div class="input-group mb-3">
+                @if(turma.professor){
+                <div class="border w-100 p-2 text-primary">{{turma.professor.nomeProfessor}}</div>
+                <button (click)="buscarProfessor()" class="btn btn-secondary" type="button" mdbRipple
+                  rippleColor="danger">
+                  Trocar professor
+                </button>
+                }@else{
+                <div class="border w-100 p-2">Nenhum professor selecionado!</div>
+                <button (click)="buscarProfessor()" class="btn btn-secondary" type="button" mdbRipple
+                  rippleColor="danger">
+                  Buscar professor
+                </button>
+                }
+              </div>
+
+              @if(turma.id > 0){
+                <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
+                  <i class="fas fa-save fa-sm"></i> Atualizar
+                </button>
+                }@else {
+                <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
+                  <i class="fas fa-save fa-sm"></i> Salvar
+                </button>
+                }
+
+
+
             </form>
   
           </div>
@@ -36,3 +65,19 @@
       <div class="col-4"></div>
     </div>
   </div>
+
+
+
+  <ng-template #modalProfessorList>
+  
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Listagem de Professores</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+    </div>
+    <div class="modal-body">
+  
+      <app-professor-list [modoModal]="true" (meuEvento)="meuEventoTratamento($event)"></app-professor-list>
+  
+    </div>
+  
+  </ng-template>

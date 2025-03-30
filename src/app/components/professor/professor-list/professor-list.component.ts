@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Professor } from '../../../models/professor';
 import { ProfessorService } from '../../../service/professor.service';
 
@@ -14,6 +14,9 @@ import { ProfessorService } from '../../../service/professor.service';
 export class ProfessorListComponent {
   lista: Professor[] = [];
   professorService = inject(ProfessorService);
+
+  @Input("modoModal") modoModal: boolean = false;
+  @Output("meuEvento") meuEvento = new EventEmitter();
   
     constructor(){
       this.findAll();
@@ -47,4 +50,10 @@ export class ProfessorListComponent {
   
       }
     }
+
+    selecionar(professor: Professor){
+      this.meuEvento.emit(professor); //esse disparo vai acionar o método do FORM
+    }
+
+
   }

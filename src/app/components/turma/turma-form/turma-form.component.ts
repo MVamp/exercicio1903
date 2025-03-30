@@ -1,24 +1,35 @@
-import { Component , EventEmitter, inject, Input, Output} from '@angular/core';
+import { Component , EventEmitter, inject, Input, Output, TemplateRef, ViewChild} from '@angular/core';
 import { Turma } from '../../../models/turma';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TurmaService } from '../../../service/turma.service';
+import { ProfessorListComponent } from "../../professor/professor-list/professor-list.component";
+import Swal from 'sweetalert2';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { ProfessorService } from '../../../service/professor.service';
+import { Professor } from '../../../models/professor';
 
 @Component({
   selector: 'app-turma-form',
   standalone: true,
-  imports: [MdbFormsModule, FormsModule],
+  imports: [MdbFormsModule, FormsModule, ProfessorListComponent],
   templateUrl: './turma-form.component.html',
   styleUrl: './turma-form.component.scss'
 })
 export class TurmaFormComponent {
+  listaProfessor!:Professor[];
   @Input("turma")  turma: Turma = new Turma();
   @Output("meuEvento") meuEvento = new EventEmitter();
 
   rotaAtivida = inject(ActivatedRoute);
   turmaService = inject(TurmaService);
+  professorService = inject(ProfessorService);
   roteador = inject(Router);
+
+  @ViewChild("modalProfessorList") modalProfessorList!: TemplateRef<any>; //referência ao template da modal
+    modalService = inject(MdbModalService); //para abrir a modal
+    modalRef!: MdbModalRef<any>; //vc conseguir fechar a modal depois
 
 
 
@@ -76,5 +87,36 @@ export class TurmaFormComponent {
   
 
 }
+
+findAllProfessor(){
+
+  this.professorService.findAll().subscribe({
+    next: (lista) => {
+      this.listaProfessor = lista;
+    },
+    error: (erro) => {
+      Swal.fire(erro.error, '', 'error');
+    }
+  });
+
+}
+
+compareId(a: Turma, b: Turma) {
+  return a && b ? a.id === b.id : a === b;
+}
+
+
+
+meuEventoTratamento(professor: Professor){
+  this.turma.professor = professor;
+  this.modalRef.close();
+}
+
+buscarProfessor(){
+  this.modalRef = this.modalService.open(this.modalProfessorList, {modalClass: 'modal-xl'});
+}
+
+
+
 
 }
