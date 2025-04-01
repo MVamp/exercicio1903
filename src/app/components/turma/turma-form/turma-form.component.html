@@ -39,7 +39,7 @@
                   <thead>
 
                     <tr>
-                      <th>lkdfsjl</th>
+                      <th>Lista de professores</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -47,22 +47,12 @@
                     <tr>
                       <td>{{professor.nomeProfessor}}</td>
                     </tr>
+                    <button (click)="deletarProfessor(professor)" class="btn btn-danger">Deletar</button>
                   }
+                  
                   </tbody>
                 </table>
             
-
-              @if(turma.id > 0){
-                <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
-                  <i class="fas fa-save fa-sm"></i> Atualizar
-                </button>
-                }@else {
-                <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
-                  <i class="fas fa-save fa-sm"></i> Salvar
-                </button>
-                }
-
-
 
             </form>
   

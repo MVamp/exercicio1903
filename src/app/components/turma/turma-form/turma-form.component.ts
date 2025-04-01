@@ -119,6 +119,10 @@ buscarProfessor(){
 }
 
 
+deletarProfessor(professor: Professor){
+  let indice = this.turma.professores.findIndex(x =>{return x.id == professor.id});
+  this.turma.professores.splice(indice,1);
 
+}
 
 }
