@@ -28,7 +28,8 @@ export class ProfessorListComponent {
           this.lista = listaRetornada;
         },
         error: (erro) => {
-          alert(erro.error)
+          console.log(erro);
+          alert(erro.error);
         }
       });
     

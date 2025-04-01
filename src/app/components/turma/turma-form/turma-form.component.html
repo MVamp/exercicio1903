@@ -28,21 +28,29 @@
               <br />
               <button (click)="save()"  [disabled]="!formulario.valid" class="btn btn-success">Salvar</button>
               
-              <div class="input-group mb-3">
-                @if(turma.professor){
-                <div class="border w-100 p-2 text-primary">{{turma.professor.nomeProfessor}}</div>
-                <button (click)="buscarProfessor()" class="btn btn-secondary" type="button" mdbRipple
-                  rippleColor="danger">
-                  Trocar professor
-                </button>
-                }@else{
-                <div class="border w-100 p-2">Nenhum professor selecionado!</div>
+              
                 <button (click)="buscarProfessor()" class="btn btn-secondary" type="button" mdbRipple
                   rippleColor="danger">
                   Buscar professor
                 </button>
-                }
-              </div>
+
+
+                <table border="1" class="table table-striped">
+                  <thead>
+
+                    <tr>
+                      <th>lkdfsjl</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (professor of turma.professores; track $index) {
+                    <tr>
+                      <td>{{professor.nomeProfessor}}</td>
+                    </tr>
+                  }
+                  </tbody>
+                </table>
+            
 
               @if(turma.id > 0){
                 <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">

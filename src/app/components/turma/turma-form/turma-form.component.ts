@@ -61,7 +61,7 @@ export class TurmaFormComponent {
         next: (mensagem) => {
           alert(mensagem);
          this.roteador.navigate(['admin/turma']);
-         // this.meuEvento.emit("OK");
+          this.meuEvento.emit("OK");
         },
         error: (erro) => {
           alert(erro.error)
@@ -75,7 +75,7 @@ export class TurmaFormComponent {
         next: (mensagem) => {
           alert(mensagem);
           this.roteador.navigate(['admin/turma']);
-         // this.meuEvento.emit("OK");
+          this.meuEvento.emit("OK");
         },
         error: (erro) => {
           alert(erro.error)
@@ -108,7 +108,9 @@ compareId(a: Turma, b: Turma) {
 
 
 meuEventoTratamento(professor: Professor){
-  this.turma.professor = professor;
+  if (this.turma.professores == null)
+    this.turma.professores = [];
+  this.turma.professores.push(professor);
   this.modalRef.close();
 }
 
