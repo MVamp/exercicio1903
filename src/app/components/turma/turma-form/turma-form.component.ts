@@ -9,11 +9,13 @@ import Swal from 'sweetalert2';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ProfessorService } from '../../../service/professor.service';
 import { Professor } from '../../../models/professor';
+import { CursoListComponent } from '../../curso/curso-list/curso-list.component';
+import { Curso } from '../../../models/curso';
 
 @Component({
   selector: 'app-turma-form',
   standalone: true,
-  imports: [MdbFormsModule, FormsModule, ProfessorListComponent],
+  imports: [MdbFormsModule, FormsModule, ProfessorListComponent, CursoListComponent],
   templateUrl: './turma-form.component.html',
   styleUrl: './turma-form.component.scss'
 })
@@ -28,6 +30,7 @@ export class TurmaFormComponent {
   roteador = inject(Router);
 
   @ViewChild("modalProfessorList") modalProfessorList!: TemplateRef<any>; //referência ao template da modal
+  @ViewChild("modalCursoList") modalCursoList!: TemplateRef<any>; //referência ao template da modal
     modalService = inject(MdbModalService); //para abrir a modal
     modalRef!: MdbModalRef<any>; //vc conseguir fechar a modal depois
 
@@ -124,5 +127,17 @@ deletarProfessor(professor: Professor){
   this.turma.professores.splice(indice,1);
 
 }
+
+buscarCurso(){
+  this.modalRef = this.modalService.open(this.modalCursoList, {modalClass: 'modal-xl'});
+}
+
+meuEventoTratamento2(curso: Curso){
+  this.turma.curso = curso;
+  this.modalRef.close();
+}
+
+
+
 
 }

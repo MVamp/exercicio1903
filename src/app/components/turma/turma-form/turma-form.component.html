@@ -52,7 +52,24 @@
                   
                   </tbody>
                 </table>
-            
+
+
+                <div class="input-group mb-3">
+                  @if(turma.curso){
+                  <div class="border w-100 p-2 text-primary">{{turma.curso.nomeCurso}}</div>
+                  <button (click)="buscarCurso()" class="btn btn-secondary" type="button" mdbRipple
+                    rippleColor="danger">
+                    Trocar curso
+                  </button>
+                  }@else{
+                  <div class="border w-100 p-2">Nenhuma turma selecionada!</div>
+                  <button (click)="buscarCurso()" class="btn btn-secondary" type="button" mdbRipple
+                    rippleColor="danger">
+                    Buscar curso
+                  </button>
+                  }
+                </div>
+    
 
             </form>
   
@@ -75,6 +92,21 @@
     <div class="modal-body">
   
       <app-professor-list [modoModal]="true" (meuEvento)="meuEventoTratamento($event)"></app-professor-list>
+  
+    </div>
+  
+  </ng-template>
+
+
+  <ng-template #modalCursoList>
+  
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Listagem de Curso</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+    </div>
+    <div class="modal-body">
+  
+      <app-curso-list [modoModal]="true" (meuEvento)="meuEventoTratamento2($event)"></app-curso-list>
   
     </div>
   

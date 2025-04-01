@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Curso } from '../../../models/curso';
 import { CursoService } from '../../../service/curso.service';
 
@@ -11,7 +11,10 @@ import { CursoService } from '../../../service/curso.service';
 })
 export class CursoListComponent {
   lista: Curso[] = [];
-  cursoService = inject(CursoService)
+  cursoService = inject(CursoService);
+
+   @Input("modoModal") modoModal: boolean = false;
+   @Output("meuEvento") meuEvento = new EventEmitter();
   
     constructor(){
       this.findAll();
@@ -45,5 +48,12 @@ export class CursoListComponent {
         
             }
           }
+
+
+          selecionar(curso: Curso){
+            this.meuEvento.emit(curso);
+          }
+
+          
 
 }

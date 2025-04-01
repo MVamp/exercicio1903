@@ -24,8 +24,12 @@
                             <td>{{curso.nomeCurso}}</td>
                            
                             <td class="alinhar">
+                                @if (!modoModal){
                             <a href="admin/curso/edit/{{curso.id}}" class="btn btn-primary">Editar</a>
                                 <button (click)="delete(curso)" class="btn btn-danger">Deletar</button>
+                                }@else {
+                                    <button (click)="selecionar(curso)" class="btn btn-danger">Selecionar</button>
+                                }
                                 </td>
                         </tr>
                     }
