@@ -26,7 +26,6 @@
             <input   [(ngModel)]="turma.turno" type="text" class="form-control" name="turno">
               
               <br />
-              <button (click)="save()"  [disabled]="!formulario.valid" class="btn btn-success">Salvar</button>
               
               
                 <button (click)="buscarProfessor()" class="btn btn-secondary" type="button" mdbRipple
@@ -69,7 +68,7 @@
                   </button>
                   }
                 </div>
-    
+                <button (click)="save()"  [disabled]="!formulario.valid" class="btn btn-success">Salvar</button>
 
             </form>
   
